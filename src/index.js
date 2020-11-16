@@ -1,6 +1,9 @@
 import './styles.css';
 import countryTpl from './templates/country-card.hbs';
-import { debounce } from 'lodash.debounce';
+import {debounce} from 'lodash.debounce'
+
+
+
 
 const refs = {
     cardContainer: document.querySelector('.js-card-container'),
@@ -8,10 +11,9 @@ const refs = {
 }
 
 
-refs.searchCountry.addEventListener('input', onSearch);
+refs.searchCountry.addEventListener('input', debounce(onSearch, 500));
 
 function onSearch(e) {
-    e.preventDefault();
 
     const form = e.currentTarget;
     const query = form.elements.query.value;
