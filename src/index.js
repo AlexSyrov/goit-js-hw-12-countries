@@ -1,36 +1,25 @@
 import './styles.css';
 import countryTpl from './templates/country-card.hbs';
-import {debounce} from 'lodash.debounce'
+import { debounce } from 'lodash';
+import API from './js/fethcCountries';
+import getRefs from './js/refs';
 
 
-
-
-const refs = {
-    cardContainer: document.querySelector('.js-card-container'),
-    searchCountry: document.querySelector('.js-search-form')
-}
+const refs = getRefs()
 
 
 refs.searchCountry.addEventListener('input', debounce(onSearch, 500));
 
 function onSearch(e) {
 
-    const form = e.currentTarget;
-    const query = form.elements.query.value;
+    const saerchQuery = e.target.value;
 
-    fethcCountries(query)
+    API.fethcCountries(saerchQuery)
         .then(renderCountryCard)
-        .catch(onFeathError)
+        .catch(onFeathError);
 
- };
+ }
 
-function fethcCountries(saerchQuery) {          
-
-    return fetch(`https://restcountries.eu/rest/v2/name/${saerchQuery}`)
-        .then(response => {
-        return response.json();
-    });
-}
 
 function renderCountryCard(country) {
     const markup = countryTpl(country);
